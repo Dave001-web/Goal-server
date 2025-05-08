@@ -3,14 +3,15 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors")
+const cors = require("cors");
 const app = express();
-const port = 3000;
+// const port = 3000;
+const PORT = process.env.PORT || 3000;
 const goalRouter = require("./routes/goalRouter");
 
 // middleware to parse JSON data from requests
 app.use(express.json());
-app.use(cors()) // middleware to enable CORS for all routes
+app.use(cors()); // middleware to enable CORS for all routes
 // middleware to parse URL-encoded data from requests
 
 // homepage route
@@ -35,10 +36,11 @@ const connectToDb = async () => {
   try {
     // Simulate database connection
 
-    await mongoose.connect(process.env.MONGO_URI);
-    dbName : "goal-tracker"
+    await mongoose.connect(process.env.MONGO_URI, {
+      dbName: "goals",
+    });
 
-    app.listen(port, () => {
+    app.listen(PORT, () => {
       console.log(`Server is running on port: ${port}`);
     });
   } catch (error) {
